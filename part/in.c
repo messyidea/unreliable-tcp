@@ -52,7 +52,7 @@ void callback(u_char* argument,const struct pcap_pkthdr* packet_header,const u_c
 
 int main(int argc, char *argv[]) {
     if(argc < 5) {
-        printf("Usage: ./in device port baddr bport\n");
+        printf("Usage: ./in device port backend_addr backend_port\n");
         return -1;
     }
 
