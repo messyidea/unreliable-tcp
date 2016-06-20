@@ -83,6 +83,7 @@ int main(int argc, char *argv[]) {
         };
 
         packet_size = libnet_write(libnet_handler);
+        libnet_clear_packet(libnet_handler);
     }
 
     libnet_destroy(libnet_handler);
