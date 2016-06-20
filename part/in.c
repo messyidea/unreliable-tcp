@@ -38,7 +38,7 @@ void callback(u_char* argument,const struct pcap_pkthdr* packet_header,const u_c
     if(ip->protocol != 6) return ;
     tcp = (struct tcphdr*)(packet_content + 14 + 20);
 
-    if(tcp->dest != dst_port) return ;
+    if(ntohs(tcp->dest) != dst_port) return ;
 
     //send
     rst = sendto(fd, (const void*)(packet_content + 14 + 20 + 20), packet_lenth - 14 - 20 - 20, 0, (struct sockaddr *)&dst_addr, slen);
