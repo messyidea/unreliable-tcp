@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
             buf,                    /* 负载内容 */
             recvlen,                /* 负载内容长度 */
             libnet_handler,                    /* libnet句柄 */
-            0                        /* 新建包 */
+            tcp_tag                        /* 新建包 */
         );
         if (tcp_tag == -1) {
             printf("libnet_build_tcp failure\n");
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
             NULL, /* 负载内容或为NULL */
             0, /* 负载内容的大小*/
             libnet_handler, /* Libnet句柄 */
-            0 /* 协议块标记可修改或创建,0表示构造一个新的*/
+            ip_tag /* 协议块标记可修改或创建,0表示构造一个新的*/
         );
         if (ip_tag == -1) {
             printf("libnet_build_ipv4 failure\n");
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
         };
 
         packet_size = libnet_write(libnet_handler);
-        libnet_clear_packet(libnet_handler);
+        //libnet_clear_packet(libnet_handler);
     }
 
     libnet_destroy(libnet_handler);
