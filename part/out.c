@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 
     char *interface = argv[1];
     char errbuf[LIBNET_ERRBUF_SIZE];
-    libnet_ptag_t eth_tag, ip_tag, tcp_tag;
+    libnet_ptag_t ip_tag = 0, tcp_tag = 0;
     u_short proto = IPPROTO_TCP;
     int packet_size;
     libnet_t *libnet_handler = libnet_init(LIBNET_RAW4_ADV, interface, errbuf);
