@@ -46,6 +46,7 @@ void callback(u_char* argument,const struct pcap_pkthdr* packet_header,const u_c
 
     if(ntohs(tcp->dest) != dst_port) return ;
 
+    printf("receive %d byte from remote\n, start send it to local", packet_lenth - 54);
     //send
     rst = sendto(fd, (const void*)(packet_content + 14 + 20 + 20), packet_lenth - 14 - 20 - 20, 0, (struct sockaddr *)&clnt_adr, clnt_adr_sz);
     if(rst < 0) {
@@ -135,7 +136,7 @@ int main(int argc, char *argv[]) {
     while(1) {
         clnt_adr_sz = sizeof(clnt_adr);
         recvlen = recvfrom(fd, buf, BUF_SIZE, 0, (struct sockaddr*)&clnt_adr, &clnt_adr_sz);
-        puts("666");
+        printf("receive %d byte from local\n, start send it to remote", recvlen);
         tcp_tag = libnet_build_tcp(
             atoi(argv[2]),                    /* 源端口 */
             atoi(argv[4]),                    /* 目的端口 */

@@ -45,6 +45,9 @@ void* handle_out(void *arg) {
 
     while(1) {
         recvlen = recvfrom(fd, buf, BUF_SIZE, 0, NULL, NULL);
+        
+        printf("receive %d byte from backend\n, start send it to client", recvlen);
+
         tcp_tag = libnet_build_tcp(
             11111,                    /* 源端口 */
             remote_port,                    /* 目的端口 */
@@ -114,6 +117,7 @@ void callback(u_char* argument,const struct pcap_pkthdr* packet_header,const u_c
 
     if(ntohs(tcp->dest) != dst_port) return ;
 
+    printf("receive %d byte from client\n, start send it to backend", packet_lenth - 54);
     //send
     rst = sendto(fd, (const void*)(packet_content + 14 + 20 + 20), packet_lenth - 14 - 20 - 20, 0, (struct sockaddr *)&dst_addr, slen);
     if(rst < 0) {
@@ -124,7 +128,7 @@ void callback(u_char* argument,const struct pcap_pkthdr* packet_header,const u_c
 
 int main(int argc, char *argv[]) {
     if(argc < 7) {
-        printf("Usage: ./in device port backend_addr backend_port remote_addr remote_port\n");
+        printf("Usage: ./server device port backend_addr backend_port remote_addr remote_port\n");
         return -1;
     }
 
@@ -141,7 +145,7 @@ int main(int argc, char *argv[]) {
 
     char errorbuf[PCAP_ERRBUF_SIZE];
 
-    // fd init 
+    // fd init
     slen = sizeof(dst_addr);
     memset((void *) &dst_addr, 0, slen);
     dst_addr.sin_family = AF_INET;
